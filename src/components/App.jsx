@@ -2,12 +2,14 @@ import { useState } from 'react';
 
 import { searchArtworks } from '../api';
 import { SearchForm } from './SearchForm';
+import ImageDetailPage from './ImageDetailPage';
 import { Footer } from './Footer';
 
 import './App.css';
 
 export function App() {
 	const [artworks, setArtworks] = useState([]);
+	const [selected, setSelected] = useState(null);
 	function onSearchSubmit(query) {
 		// Search for the users's query.
 		// TODO: render the results, instead of logging them to the console.
@@ -19,19 +21,31 @@ export function App() {
 			setArtworks(json.data);
 		});
 	}
+	function handleClickView() {
+		setSelected(true);
+	}
 
 	return (
 		<div className="App">
-			<h1>TCL Career Lab Art Finder</h1>
-			<SearchForm onSearchSubmit={onSearchSubmit} />
-			<ul>
-				{artworks.map((artwork, index) => {
-					return (
-						<li key={index}>{`${artwork.title}, ${artwork.artist_title}`}</li>
-					);
-				})}
-			</ul>
-			<Footer />
+			{selected ? (
+				<ImageDetailPage setSelected={setSelected} />
+			) : (
+				<>
+					<h1>TCL Career Lab Art Finder</h1>
+					<SearchForm onSearchSubmit={onSearchSubmit} />
+					<ul>
+						{artworks.map((artwork, index) => {
+							return (
+								<li key={index}>
+									{`${artwork.title}, ${artwork.artist_title}`}{' '}
+									<button onClick={handleClickView}>View</button>
+								</li>
+							);
+						})}
+					</ul>
+					<Footer />
+				</>
+			)}
 		</div>
 	);
 }
