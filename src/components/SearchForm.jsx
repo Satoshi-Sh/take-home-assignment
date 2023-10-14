@@ -9,12 +9,13 @@ export function SearchForm({ onSearchSubmit }) {
 		setQuery(evt.target.value);
 	}
 
-	function handleFormSubmit() {
+	function handleFormSubmit(e) {
+		e.preventDefault();
 		onSearchSubmit(query);
 	}
 
 	return (
-		<form className="Form" role="search" onSubmit={handleFormSubmit}>
+		<form className="Form" role="search" onSubmit={(e) => handleFormSubmit(e)}>
 			<input
 				aria-label="Search for artworks"
 				className="input"
