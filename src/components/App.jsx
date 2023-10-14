@@ -21,14 +21,14 @@ export function App() {
 			setArtworks(json.data);
 		});
 	}
-	function handleClickView() {
-		setSelected(true);
+	function handleClickView(artwork) {
+		setSelected(artwork);
 	}
 
 	return (
 		<div className="App">
 			{selected ? (
-				<ImageDetailPage setSelected={setSelected} />
+				<ImageDetailPage selected={selected} setSelected={setSelected} />
 			) : (
 				<>
 					<h1>TCL Career Lab Art Finder</h1>
@@ -38,7 +38,9 @@ export function App() {
 							return (
 								<li key={index}>
 									{`${artwork.title}, ${artwork.artist_title}`}{' '}
-									<button onClick={handleClickView}>View</button>
+									<button onClick={(e) => handleClickView(artwork)}>
+										View
+									</button>
 								</li>
 							);
 						})}
